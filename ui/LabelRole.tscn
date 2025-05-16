@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bbg1nh7l5yjhq"]
+
+[node name="LabelRole" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

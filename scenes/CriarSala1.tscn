@@ -1,0 +1,100 @@
+[gd_scene load_steps=3 format=3 uid="uid://ud2cu7d6f5rg"]
+
+[ext_resource type="Script" path="res://scripts/CriarSala.gd" id="1_8jsb6"]
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="2_818j1"]
+
+[node name="CriarSala1" type="Node2D"]
+script = ExtResource("1_8jsb6")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_818j1")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 400.0
+offset_bottom = 42.0
+text = "Geral"
+
+[node name="CheckBox" type="CheckBox" parent="Label"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 21.0
+offset_right = 399.0
+offset_bottom = 52.0
+text = "Revelar"
+
+[node name="CheckBox2" type="CheckBox" parent="Label"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 46.0
+offset_right = 397.0
+offset_bottom = 77.0
+text = "Esconder"
+
+[node name="CheckBox3" type="CheckBox" parent="Label"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 71.0
+offset_right = 399.0
+offset_bottom = 102.0
+text = "Sem mortes na primeira noite"
+
+[node name="CheckBox4" type="CheckBox" parent="Label"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 94.0
+offset_right = 400.0
+offset_bottom = 125.0
+text = "Ações noturnas para grevistas"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 10.0
+offset_top = 152.0
+offset_right = 401.0
+offset_bottom = 178.0
+text = "Votação"
+
+[node name="CheckBox" type="CheckBox" parent="Label3"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 21.0
+offset_right = 399.0
+offset_bottom = 52.0
+text = "Jogadores podem pular seus votos"
+
+[node name="CheckBox2" type="CheckBox" parent="Label3"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 46.0
+offset_right = 397.0
+offset_bottom = 77.0
+text = "Esconder número de votos"
+
+[node name="VoltarBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 456.0
+offset_right = 391.0
+offset_bottom = 536.0
+pivot_offset = Vector2(2, -2)
+text = "Voltar"
+icon_alignment = 1
+
+[node name="ProximoBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 368.0
+offset_right = 391.0
+offset_bottom = 448.0
+pivot_offset = Vector2(2, -2)
+text = "Próximo"
+icon_alignment = 1

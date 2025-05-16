@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdvvrvtub0tex"]
+
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="1_brpfq"]
+[ext_resource type="Script" path="res://scripts/Lobby.gd" id="1_rwsed"]
+
+[node name="Lobby" type="Node2D"]
+script = ExtResource("1_rwsed")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_brpfq")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VoltarBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 456.0
+offset_right = 391.0
+offset_bottom = 536.0
+pivot_offset = Vector2(2, -2)
+text = "Voltar"
+icon_alignment = 1
+
+[node name="ComecarBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 368.0
+offset_right = 391.0
+offset_bottom = 448.0
+pivot_offset = Vector2(2, -2)
+text = "Começar"
+icon_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 399.0
+offset_bottom = 250.0
+text = "Predefinições Escolhidas
+
+Geral
+[x] Revelar
+[x] Sem mortes na primeira noite
+
+Votação:
+[x] Jogadores podem pular seus votos
+[  ] Esconder número de votos
+"
+tab_size = 7

@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfi8jmscyxg5d"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_go3jq"]
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="2_jhfq8"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_go3jq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jhfq8")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="VoltarBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 456.0
+offset_right = 391.0
+offset_bottom = 536.0
+pivot_offset = Vector2(2, -2)
+text = "Voltar"
+icon_alignment = 1
+
+[node name="ComecarBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 368.0
+offset_right = 391.0
+offset_bottom = 448.0
+pivot_offset = Vector2(2, -2)
+text = "Começar"
+icon_alignment = 1
+
+[node name="AdicionarJogadorBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 288.0
+offset_right = 391.0
+offset_bottom = 368.0
+pivot_offset = Vector2(2, -2)
+text = "Adicionar jogadores"
+icon_alignment = 1
+
+[node name="InputNome" type="LineEdit" parent="."]
+offset_left = 32.0
+offset_top = 200.0
+offset_right = 368.0
+offset_bottom = 248.0
+placeholder_text = "Escreva aqui o nome do jogador"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 376.0
+offset_bottom = 184.0
+
+[node name="JogadoresContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0wurwh6ahe7s"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_3dvwy"]
+[ext_resource type="Texture2D" uid="uid://d1g07t150wm1a" path="res://assets/Scab.png" id="1_ehes6"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_3dvwy")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ehes6")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="BotaoStart" type="Button" parent="."]
+offset_left = 16.0
+offset_top = 456.0
+offset_right = 384.0
+offset_bottom = 536.0
+pivot_offset = Vector2(2, -2)
+text = "Iniciar jogo"
+icon_alignment = 1
