@@ -28,8 +28,8 @@ func _on_adicionar_jogador_pressed():
 		funcao = funcoes_disponiveis.pop_front()
 	else:
 		funcao = {
-			"faccao": "Neutro",
-			"papel": "Cidadão",
+			"faccao": "Sindicato",
+			"papel": "Membro",
 			"habilidades": "Sem habilidades especiais."
 		}
 
