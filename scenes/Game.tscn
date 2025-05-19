@@ -48,16 +48,16 @@ icon_alignment = 1
 
 [node name="InputNome" type="LineEdit" parent="."]
 offset_left = 32.0
-offset_top = 200.0
+offset_top = 224.0
 offset_right = 368.0
-offset_bottom = 248.0
+offset_bottom = 272.0
 placeholder_text = "Escreva aqui o nome do jogador"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 376.0
-offset_bottom = 184.0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 392.0
+offset_bottom = 208.0
 
 [node name="JogadoresContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2

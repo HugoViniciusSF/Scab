@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://ceiel0a4qmufa"]
+
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="1_heuxq"]
+
+[node name="RevelarFuncoes" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_heuxq")
+expand_mode = 2
+stretch_mode = 5

@@ -19,66 +19,58 @@ texture = ExtResource("2_818j1")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="."]
+[node name="GeralLabel" type="Label" parent="."]
 offset_left = 8.0
 offset_top = 16.0
 offset_right = 400.0
 offset_bottom = 42.0
 text = "Geral"
 
-[node name="CheckBox" type="CheckBox" parent="Label"]
+[node name="RevelarCheckBox" type="CheckBox" parent="GeralLabel"]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 21.0
-offset_right = 399.0
-offset_bottom = 52.0
-text = "Revelar"
+offset_left = 8.0
+offset_top = 26.0
+offset_right = 406.0
+offset_bottom = 57.0
+text = "Revelar a função dos jogadores ao morrer"
 
-[node name="CheckBox2" type="CheckBox" parent="Label"]
+[node name="SemMortesCheckBox" type="CheckBox" parent="GeralLabel"]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 46.0
-offset_right = 397.0
-offset_bottom = 77.0
-text = "Esconder"
-
-[node name="CheckBox3" type="CheckBox" parent="Label"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 71.0
-offset_right = 399.0
-offset_bottom = 102.0
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 406.0
+offset_bottom = 87.0
 text = "Sem mortes na primeira noite"
 
-[node name="CheckBox4" type="CheckBox" parent="Label"]
+[node name="AcoesCheckBox" type="CheckBox" parent="GeralLabel"]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 94.0
-offset_right = 400.0
-offset_bottom = 125.0
+offset_left = 8.0
+offset_top = 87.0
+offset_right = 407.0
+offset_bottom = 118.0
 text = "Ações noturnas para grevistas"
 
-[node name="Label3" type="Label" parent="."]
+[node name="VotacaoLabel" type="Label" parent="."]
 offset_left = 10.0
 offset_top = 152.0
 offset_right = 401.0
 offset_bottom = 178.0
 text = "Votação"
 
-[node name="CheckBox" type="CheckBox" parent="Label3"]
+[node name="PularVotosCheckBox" type="CheckBox" parent="VotacaoLabel"]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 21.0
-offset_right = 399.0
-offset_bottom = 52.0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 404.0
+offset_bottom = 55.0
 text = "Jogadores podem pular seus votos"
 
-[node name="CheckBox2" type="CheckBox" parent="Label3"]
+[node name="EsconderVotosCheckBox" type="CheckBox" parent="VotacaoLabel"]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 46.0
-offset_right = 397.0
-offset_bottom = 77.0
+offset_left = 6.0
+offset_top = 48.0
+offset_right = 402.0
+offset_bottom = 79.0
 text = "Esconder número de votos"
 
 [node name="VoltarBotao" type="Button" parent="."]
@@ -98,3 +90,18 @@ offset_bottom = 448.0
 pivot_offset = Vector2(2, -2)
 text = "Próximo"
 icon_alignment = 1
+
+[node name="QuantidadeJogadoresLabel" type="Label" parent="."]
+offset_left = 11.0
+offset_top = 232.0
+offset_right = 51.0
+offset_bottom = 255.0
+text = "Quantidade de jogadores"
+
+[node name="QuantidadeJogadoresLine" type="LineEdit" parent="QuantidadeJogadoresLabel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 26.0
+offset_right = 221.0
+offset_bottom = 57.0
+placeholder_text = "Quantidade(4-14)"

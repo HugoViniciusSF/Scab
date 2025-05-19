@@ -1,12 +1,8 @@
 extends Node2D
 
-# Lista de jogadores (cada jogador é um dicionário com nome e função)
 var jogadores: Array = []
+var funcoes_disponiveis: Array = JogoGlobal.classes_disponiveis.duplicate()
 
-# Lista de funções possíveis MUDAR PRA O QUE TEMOS NO DOCUMENTO
-var funcoes_disponiveis = ["Lobisomem", "Detetive", "Vidente", "Cidadão"]
-
-# Referências para os nós da cena
 @onready var voltar_botao = $VoltarBotao
 @onready var input_nome = $InputNome
 @onready var adicionar_jogador_botao = $AdicionarJogadorBotao
@@ -24,41 +20,69 @@ func _on_botao_voltar_pressed():
 func _on_adicionar_jogador_pressed():
 	var nome = input_nome.text.strip_edges()
 	if nome == "":
-		return  # Não adiciona nomes vazios
+		return
 
-	# Cria um jogador e adiciona à lista
+	# Atribui função imediatamente
+	var funcao = null
+	if funcoes_disponiveis.size() > 0:
+		funcao = funcoes_disponiveis.pop_front()
+	else:
+		funcao = {
+			"faccao": "Neutro",
+			"papel": "Cidadão",
+			"habilidades": "Sem habilidades especiais."
+		}
+
 	var jogador = {
 		"nome": nome,
-		"funcao": null  # Função será atribuída depois
+		"funcao": funcao
 	}
 	jogadores.append(jogador)
 
-	# Mostra o jogador na UI
-	var novo_label = Label.new()
-	novo_label.text = "%s foi adicionado" % nome
-	jogadores_container.add_child(novo_label)
+	# Mostra na UI com papel e facção
+	var label = Label.new()
+	#label.text = "%s foi adicionado como %s (%s)" % [nome, funcao["papel"], funcao["faccao"]]
+	#jogadores_container.add_child(label)
+	label.text = "%s foi adicionado" % nome
+	jogadores_container.add_child(label)
 
-	input_nome.text = ""  # Limpa o campo de entrada
+	input_nome.text = ""
 
 func _on_comecar_jogo_pressed():
-	if jogadores.size() < 3:
-		print("Mínimo de 3 jogadores necessário para começar o jogo.")
+	if jogadores.size() < 4: #Aqui vamos colocar a quantidade de jogades que foi selecionado na tela de criação da tela !!!!!
+		print("Mínimo de 4 jogadores necessário para começar o jogo.") #ver quantos sao no documento coloquei 4 por enquanto
 		return
 
-	atribuir_funcoes()
-
-	# Armazena os jogadores no autoload (singleton)
+	# Jogadores já têm função, apenas salva no singleton
 	JogoGlobal.jogadores = jogadores
 
-	# Vai para a próxima cena
+	# Salva os dados em um .txt para conferência
+	salvar_jogadores_em_txt()
+
 	get_tree().change_scene_to_file("res://scenes/RevelarFuncoes.tscn")
 
-func atribuir_funcoes():
-	var funcoes = funcoes_disponiveis.duplicate()
-	funcoes.shuffle()
+func salvar_jogadores_em_txt():
+	var caminho = "user://jogadores.txt"
+	var file = FileAccess.open(caminho, FileAccess.WRITE)
+	
+	if file:
+		file.store_line("=== Configurações da Sala ===")
+		for chave in JogoGlobal.configuracoes_sala:
+			var valor = JogoGlobal.configuracoes_sala[chave]
+			file.store_line("%s: %s" % [chave, str(valor)])
+		
+		file.store_line("") # linha em branco para separar
 
-	for jogador in jogadores:
-		if funcoes.size() > 0:
-			jogador["funcao"] = funcoes.pop_front()
-		else:
-			jogador["funcao"] = "Cidadão"  # Papel padrão se acabarem
+		file.store_line("=== Jogadores ===")
+		for jogador in jogadores:
+			var nome = jogador["nome"]
+			var funcao = jogador["funcao"]
+			var papel = funcao.get("papel", "Desconhecido")
+			var faccao = funcao.get("faccao", "Desconhecida")
+			file.store_line("%s: %s (%s)" % [nome, papel, faccao])
+
+		file.close()
+		print("Dados salvos em:", caminho)
+	else:
+		print("Erro ao salvar jogadores.txt")
+
