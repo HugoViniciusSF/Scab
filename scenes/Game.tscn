@@ -57,7 +57,13 @@ placeholder_text = "Escreva aqui o nome do jogador"
 offset_left = 8.0
 offset_top = 16.0
 offset_right = 392.0
-offset_bottom = 208.0
+offset_bottom = 168.0
 
 [node name="JogadoresContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
+
+[node name="ContadorLabel" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 184.0
+offset_right = 368.0
+offset_bottom = 224.0
