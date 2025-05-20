@@ -37,19 +37,11 @@ pivot_offset = Vector2(2, -2)
 text = "Começar"
 icon_alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 offset_left = 8.0
 offset_top = 16.0
-offset_right = 399.0
-offset_bottom = 250.0
-text = "Predefinições Escolhidas
+offset_right = 392.0
+offset_bottom = 208.0
 
-Geral
-[x] Revelar
-[x] Sem mortes na primeira noite
-
-Votação:
-[x] Jogadores podem pular seus votos
-[  ] Esconder número de votos
-"
-tab_size = 7
+[node name="ConfiguracoesContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
