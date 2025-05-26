@@ -53,14 +53,15 @@ func atualizar_contador():
 	adicionar_jogador_botao.disabled = jogadores.size() >= max_jogadores
 
 func _on_comecar_jogo_pressed():
-	if jogadores.size() < 4:  # mínimo de jogadores
+	if jogadores.size() < 4:
 		print("Mínimo de 4 jogadores necessário para começar o jogo.")
 		return
 
-	# Distribuir papéis conforme as regras
 	distribuir_papeis()
 	
 	JogoGlobal.jogadores = jogadores
+	
+	salvar_configuracoes_sala()
 	salvar_jogadores_em_txt()
 
 	get_tree().change_scene_to_file("res://scenes/RevelarFuncoes.tscn")
@@ -197,14 +198,6 @@ func salvar_jogadores_em_txt():
 	var file = FileAccess.open(caminho, FileAccess.WRITE)
 	
 	if file:
-		file.store_line("=== Configurações da Sala ===")
-		for chave in JogoGlobal.configuracoes_sala:
-			var valor = JogoGlobal.configuracoes_sala[chave]
-			file.store_line("%s: %s" % [chave, str(valor)])
-		
-		file.store_line("") # linha em branco para separar
-
-		file.store_line("=== Jogadores ===")
 		var id = 1
 		for jogador in jogadores:
 			var nome = jogador["nome"]
@@ -212,14 +205,28 @@ func salvar_jogadores_em_txt():
 			var papel = funcao.get("papel", "Desconhecido")
 			var faccao = funcao.get("faccao", "Desconhecida")
 			
-			# Armazena o ID no dicionário para uso futuro
-			jogador["id"] = id
+			jogador["id"] = id  # salva o ID no dicionário
 
-			# Salva com ID
+			# Salva linha com dados do jogador
 			file.store_line("ID %d - %s: %s (%s)" % [id, nome, papel, faccao])
 			id += 1
 
 		file.close()
-		print("Dados salvos em:", caminho)
+		print("Jogadores salvos em:", caminho)
 	else:
 		print("Erro ao salvar jogadores.txt")
+
+func salvar_configuracoes_sala():
+	var caminho = "user://configuracoes_sala.txt"
+	var file = FileAccess.open(caminho, FileAccess.WRITE)
+	
+	if file:
+		for chave in JogoGlobal.configuracoes_sala:
+			var valor = JogoGlobal.configuracoes_sala[chave]
+			file.store_line("%s: %s" % [chave, str(valor)])
+		
+		file.close()
+		print("Configurações da sala salvas em:", caminho)
+	else:
+		print("Erro ao salvar configuracoes_sala.txt")
+
