@@ -8,7 +8,8 @@ var max_jogadores: int = 0  # variável para guardar o limite de jogadores
 @onready var adicionar_jogador_botao = $AdicionarJogadorBotao
 @onready var jogadores_container = $ScrollContainer/JogadoresContainer
 @onready var comecar_botao = $ComecarBotao
-@onready var contador_label = $ContadorLabel  # label que você adicionou
+@onready var contador_label = $ContadorLabel  
+@onready var input_senha = $InputSenha
 
 func _ready():
 	max_jogadores = JogoGlobal.configuracoes_sala.get("quantidade_jogadores", 0)
@@ -27,22 +28,23 @@ func _on_adicionar_jogador_pressed():
 		return
 
 	var nome = input_nome.text.strip_edges()
-	if nome == "":
+	var senha = input_senha.text.strip_edges()
+	if nome == "" or senha == "":
 		return
 
-	# Apenas adiciona o jogador com nome, sem atribuir função ainda
 	var jogador = {
 		"nome": nome,
+		"senha": senha,
 		"funcao": null  # A função será atribuída no começo do jogo
 	}
 	jogadores.append(jogador)
 
-	# Mostra na UI
 	var label = Label.new()
 	label.text = "%s foi adicionado" % nome
 	jogadores_container.add_child(label)
 
 	input_nome.text = ""
+	input_senha.text = ""
 
 	atualizar_contador()
 
@@ -201,14 +203,15 @@ func salvar_jogadores_em_txt():
 		var id = 1
 		for jogador in jogadores:
 			var nome = jogador["nome"]
+			var senha = jogador["senha"]
 			var funcao = jogador["funcao"]
 			var papel = funcao.get("papel", "Desconhecido")
 			var faccao = funcao.get("faccao", "Desconhecida")
 			
-			jogador["id"] = id  # salva o ID no dicionário
+			jogador["id"] = id
 
-			# Salva linha com dados do jogador
-			file.store_line("ID %d - %s: %s (%s)" % [id, nome, papel, faccao])
+			# Agora inclui a senha na linha
+			file.store_line("ID %d - %s: %s (%s) | Senha: %s" % [id, nome, papel, faccao, senha])
 			id += 1
 
 		file.close()

@@ -49,9 +49,9 @@ icon_alignment = 1
 
 [node name="InputNome" type="LineEdit" parent="."]
 offset_left = 16.0
-offset_top = 224.0
+offset_top = 160.0
 offset_right = 384.0
-offset_bottom = 272.0
+offset_bottom = 208.0
 placeholder_text = "Escreva aqui o nome do jogador"
 alignment = 1
 
@@ -59,7 +59,7 @@ alignment = 1
 offset_left = 24.0
 offset_top = 40.0
 offset_right = 378.0
-offset_bottom = 203.0
+offset_bottom = 146.0
 scale = Vector2(0.994925, 0.979277)
 pivot_offset = Vector2(-0.246068, 0)
 metadata/_edit_group_ = true
@@ -73,3 +73,11 @@ offset_right = 400.0
 offset_bottom = 40.0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="InputSenha" type="LineEdit" parent="."]
+offset_left = 16.0
+offset_top = 216.0
+offset_right = 384.0
+offset_bottom = 264.0
+placeholder_text = "Escreva aqui uma senha"
+alignment = 1
