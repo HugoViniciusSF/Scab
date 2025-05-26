@@ -30,9 +30,10 @@ func _on_botao_proximo_pressed():
 	get_tree().change_scene_to_file("res://scenes/Lobby.tscn")
 
 func _on_quantidade_text_changed(new_text):
-	# Ativa o botão apenas se for número válido maior que 0
 	var valor = new_text.strip_edges()
-	if valor.is_valid_int() and int(valor) > 0:
-		proximo_botao.disabled = false
+	if valor.is_valid_int():
+		var numero = int(valor)
+		proximo_botao.disabled = not (numero >= 4 and numero <= 14)
 	else:
 		proximo_botao.disabled = true
+
