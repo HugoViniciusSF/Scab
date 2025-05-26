@@ -16,3 +16,11 @@ grow_vertical = 2
 texture = ExtResource("1_heuxq")
 expand_mode = 2
 stretch_mode = 5
+
+[node name="GeralLabel" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 401.0
+offset_bottom = 42.0
+text = "AQUI VAI REVELAR AS FUNCOES DE CADA JOGADOR "
+autowrap_mode = 3

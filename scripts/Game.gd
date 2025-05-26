@@ -205,12 +205,19 @@ func salvar_jogadores_em_txt():
 		file.store_line("") # linha em branco para separar
 
 		file.store_line("=== Jogadores ===")
+		var id = 1
 		for jogador in jogadores:
 			var nome = jogador["nome"]
 			var funcao = jogador["funcao"]
 			var papel = funcao.get("papel", "Desconhecido")
 			var faccao = funcao.get("faccao", "Desconhecida")
-			file.store_line("%s: %s (%s)" % [nome, papel, faccao])
+			
+			# Armazena o ID no dicionário para uso futuro
+			jogador["id"] = id
+
+			# Salva com ID
+			file.store_line("ID %d - %s: %s (%s)" % [id, nome, papel, faccao])
+			id += 1
 
 		file.close()
 		print("Dados salvos em:", caminho)
