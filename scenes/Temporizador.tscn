@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7f0p4skyi2v2"]
+
+[ext_resource type="Script" path="res://scripts/Temporizador.gd" id="1_ihl8y"]
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="2_0jr81"]
+
+[node name="Temporizador" type="Node2D"]
+script = ExtResource("1_ihl8y")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0jr81")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="TempoLabel" type="Label" parent="."]
+offset_top = 216.0
+offset_right = 400.0
+offset_bottom = 353.0
+theme_override_font_sizes/font_size = 100
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="BotaoIniciar" type="Button" parent="."]
+offset_left = 168.0
+offset_top = 376.0
+offset_right = 232.0
+offset_bottom = 424.0
+
+[node name="BotaoAumentar" type="Button" parent="."]
+offset_left = 272.0
+offset_top = 376.0
+offset_right = 336.0
+offset_bottom = 424.0
+text = "+"
+
+[node name="BotaoFinalizar" type="Button" parent="."]
+offset_left = 64.0
+offset_top = 448.0
+offset_right = 336.0
+offset_bottom = 496.0
+text = "Finalizar"
+
+[node name="BotaoDiminuir" type="Button" parent="."]
+offset_left = 64.0
+offset_top = 376.0
+offset_right = 128.0
+offset_bottom = 424.0
+text = "-"
+
+[node name="Label" type="Label" parent="."]
+offset_top = 88.0
+offset_right = 400.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 30
+text = "DEBATE"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
