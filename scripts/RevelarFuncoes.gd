@@ -54,24 +54,8 @@ func criar_botoes_jogadores():
 		var botao = Button.new()
 		botao.text = jogador["nome"]
 		
-		# Botão agora com tamanho 120x120 para caber melhor na área 400x600
 		botao.custom_minimum_size = Vector2(120, 120)
 		botao.flat = true
-
-		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color("#2e2e2e")
-		estilo.border_color = Color("#5fdde5")
-		estilo.set_border_width(SIDE_LEFT, 2)
-		estilo.set_border_width(SIDE_TOP, 2)
-		estilo.set_border_width(SIDE_RIGHT, 2)
-		estilo.set_border_width(SIDE_BOTTOM, 2)
-		estilo.set_corner_radius_all(10)
-
-		var tema = Theme.new()
-		tema.set_stylebox("normal", "Button", estilo)
-		tema.set_color("font_color", "Button", Color.WHITE)
-
-		botao.theme = tema
 
 		botao.pressed.connect(func():
 			solicitar_senha_e_revelar(jogador)
