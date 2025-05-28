@@ -49,6 +49,9 @@ func carregar_jogadores():
 			})
 	file.close()
 
+	# 🔠 Ordenar os jogadores por nome (alfabeticamente)
+	jogadores.sort_custom(func(a, b): return a["nome"].to_lower() < b["nome"].to_lower())
+
 func criar_botoes_jogadores():
 	for jogador in jogadores:
 		var botao = Button.new()
