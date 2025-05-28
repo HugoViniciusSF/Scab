@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bu5xkn36ylewa"]
+[gd_scene load_steps=3 format=3 uid="uid://bn8ni0xwd2v12"]
 
 [ext_resource type="Script" path="res://scripts/Votacao.gd" id="1_ucy80"]
 [ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="2_yuweu"]
