@@ -209,15 +209,16 @@ func salvar_jogadores_em_txt():
 			var faccao = funcao.get("faccao", "Desconhecida")
 			
 			jogador["id"] = id
+			jogador["morto"] = false  # Adiciona o campo booleano
 
-			# Agora inclui a senha na linha
-			file.store_line("ID %d - %s: %s (%s) | Senha: %s" % [id, nome, papel, faccao, senha])
+			file.store_line("ID %d - %s: %s (%s) | Morto: %s | Senha: %s" % [id, nome, papel, faccao, str(jogador["morto"]), senha])
 			id += 1
 
 		file.close()
 		print("Jogadores salvos em:", caminho)
 	else:
 		print("Erro ao salvar jogadores.txt")
+
 
 func salvar_configuracoes_sala():
 	var caminho = "user://configuracoes_sala.txt"

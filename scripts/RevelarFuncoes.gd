@@ -1,12 +1,31 @@
 extends Node2D
 
-@onready var container = $VBoxContainer
+@onready var scroll_container = $ScrollContainer
 
 var jogadores = []
+var container : GridContainer
 
 func _ready():
+	configurar_layout()
 	carregar_jogadores()
 	criar_botoes_jogadores()
+
+func configurar_layout():
+	var center_container = CenterContainer.new()
+	center_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll_container.add_child(center_container)
+
+	container = GridContainer.new()
+	container.columns = 3
+	
+	# Ajustei o tamanho mínimo do container para 380px de largura (quase o total da largura 400)
+	container.custom_minimum_size = Vector2(380, 0)
+	
+	# Centralizar horizontalmente
+	container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	
+	center_container.add_child(container)
 
 func carregar_jogadores():
 	var file = FileAccess.open("user://jogadores.txt", FileAccess.READ)
@@ -34,14 +53,35 @@ func criar_botoes_jogadores():
 	for jogador in jogadores:
 		var botao = Button.new()
 		botao.text = jogador["nome"]
+		
+		# Botão agora com tamanho 120x120 para caber melhor na área 400x600
+		botao.custom_minimum_size = Vector2(120, 120)
+		botao.flat = true
+
+		var estilo = StyleBoxFlat.new()
+		estilo.bg_color = Color("#2e2e2e")
+		estilo.border_color = Color("#5fdde5")
+		estilo.set_border_width(SIDE_LEFT, 2)
+		estilo.set_border_width(SIDE_TOP, 2)
+		estilo.set_border_width(SIDE_RIGHT, 2)
+		estilo.set_border_width(SIDE_BOTTOM, 2)
+		estilo.set_corner_radius_all(10)
+
+		var tema = Theme.new()
+		tema.set_stylebox("normal", "Button", estilo)
+		tema.set_color("font_color", "Button", Color.WHITE)
+
+		botao.theme = tema
+
 		botao.pressed.connect(func():
 			solicitar_senha_e_revelar(jogador)
 		)
+
 		container.add_child(botao)
 
 func solicitar_senha_e_revelar(jogador):
 	var senha_dialog = AcceptDialog.new()
-	senha_dialog.set_min_size(Vector2(400, 150)) # Aumenta o tamanho do popup
+	senha_dialog.set_min_size(Vector2(300, 150))
 
 	var entrada = LineEdit.new()
 	entrada.placeholder_text = "Digite a senha"
@@ -50,6 +90,8 @@ func solicitar_senha_e_revelar(jogador):
 	senha_dialog.dialog_text = "Senha para " + jogador["nome"] + ":"
 	senha_dialog.add_child(entrada)
 	senha_dialog.get_ok_button().text = "Revelar"
+	senha_dialog.title = ""
+
 	add_child(senha_dialog)
 	
 	senha_dialog.confirmed.connect(func():
@@ -59,12 +101,15 @@ func solicitar_senha_e_revelar(jogador):
 		else:
 			mostrar_erro()
 	)
+
 	senha_dialog.popup_centered()
 
 func mostrar_papel(jogador):
 	var aviso = AcceptDialog.new()
+	aviso.set_min_size(Vector2(300, 150))
 	aviso.dialog_text = "Função de %s:\n%s" % [jogador["nome"], jogador["papel"]]
-	aviso.get_ok_button().text = "OK"
+	aviso.get_ok_button().text = "Fechar"
+	aviso.title = ""
 	add_child(aviso)
 	aviso.popup_centered()
 
