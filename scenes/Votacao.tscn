@@ -29,18 +29,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
+[node name="LabelJogador" type="Label" parent="."]
+offset_top = 168.0
+offset_right = 400.0
+offset_bottom = 194.0
+text = "Escolha um jogador para seu voto"
+horizontal_alignment = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 offset_left = 16.0
-offset_top = 168.0
+offset_top = 448.0
 offset_right = 384.0
-offset_bottom = 448.0
-
-[node name="Label" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "Escolha um jogador para seu voto"
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
-layout_mode = 2
+offset_bottom = 514.0
 
 [node name="ButtonPular" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -49,3 +49,17 @@ text = "Pular voto"
 [node name="ButtonConfirmar" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Confirmar voto"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 16.0
+offset_top = 200.0
+offset_right = 400.0
+offset_bottom = 424.0
+
+[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/CenterContainer"]
+show_behind_parent = true
+layout_mode = 2
+columns = 3

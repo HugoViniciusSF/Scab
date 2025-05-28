@@ -7,8 +7,8 @@ var voto_selecionado = null
 var botao_selecionado = null
 var votacao_path = "user://Votacao.txt"
 
-@onready var container_botoes = $VBoxContainer/GridContainer
-@onready var label_jogador = $VBoxContainer/Label
+@onready var container_botoes = $ScrollContainer/CenterContainer/GridContainer
+@onready var label_jogador = $LabelJogador
 @onready var botao_pular = $VBoxContainer/ButtonPular
 @onready var botao_confirmar = $VBoxContainer/ButtonConfirmar
 
@@ -74,20 +74,31 @@ func gerar_botoes_votacao():
 		if jogador != atual:
 			var botao = Button.new()
 			botao.text = jogador
-			# Captura o valor da variável jogador para cada botão
+			botao.custom_minimum_size = Vector2(120, 120)
+
+			# StyleBoxFlat transparente, com cantos arredondados
+			var style = StyleBoxFlat.new()
+			style.bg_color = Color(0, 0, 0, 0)  # totalmente transparente
+			style.set_border_width_all(0)  # sem borda
+			style.corner_radius_top_left = 60
+			style.corner_radius_top_right = 60
+			style.corner_radius_bottom_left = 60
+			style.corner_radius_bottom_right = 60
+
+			# Override para todos os estados, inclusive foco
+			botao.add_theme_stylebox_override("normal", style)
+			botao.add_theme_stylebox_override("hover", style)
+			botao.add_theme_stylebox_override("pressed", style)
+			botao.add_theme_stylebox_override("disabled", style)
+			botao.add_theme_stylebox_override("focus", style)
+			botao.add_theme_stylebox_override("focus_hover", style)
+			botao.focus_mode = Control.FOCUS_NONE  # Desativa o foco visual
+
 			botao.pressed.connect(func(nome = jogador) -> void:
 				_on_voto_selecionado(nome)
 			)
 			container_botoes.add_child(botao)
 
-	# Botão pular extra (opcional)
-	if configuracoes.get("pular_votacao", false):
-		var botao_pular_extra = Button.new()
-		botao_pular_extra.text = "Pular Votação"
-		botao_pular_extra.pressed.connect(func() -> void:
-			_on_voto_selecionado("PULAR")
-		)
-		container_botoes.add_child(botao_pular_extra)
 
 func _on_voto_selecionado(nome):
 	voto_selecionado = nome
@@ -101,7 +112,7 @@ func _on_voto_selecionado(nome):
 	# Marca o botão selecionado com verde
 	for botao in container_botoes.get_children():
 		if botao.text == nome:
-			botao.add_theme_color_override("font_color", Color(0,1,0))
+			botao.add_theme_color_override("font_color", Color(0, 1, 0))
 			botao_selecionado = botao
 			break
 
@@ -110,6 +121,8 @@ func configurar_pular_visivel():
 
 func _on_ButtonPular_pressed():
 	_on_voto_selecionado("PULAR")
+	confirmar_voto()
+
 
 func _on_ButtonConfirmar_pressed():
 	if voto_selecionado:
@@ -123,7 +136,7 @@ func confirmar_voto():
 
 	var file = FileAccess.open(votacao_path, FileAccess.READ_WRITE)
 	if file:
-		file.seek_end() # posiciona o ponteiro no fim do arquivo para acrescentar conteúdo
+		file.seek_end()
 		file.store_string(registro)
 		file.close()
 		print("Voto salvo:", registro)

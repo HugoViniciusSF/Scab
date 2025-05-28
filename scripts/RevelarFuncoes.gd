@@ -56,9 +56,26 @@ func criar_botoes_jogadores():
 	for jogador in jogadores:
 		var botao = Button.new()
 		botao.text = jogador["nome"]
-		
 		botao.custom_minimum_size = Vector2(120, 120)
 		botao.flat = true
+		botao.focus_mode = Control.FOCUS_NONE  # Remove foco visual
+
+		# Estilo transparente e arredondado
+		var style = StyleBoxFlat.new()
+		style.bg_color = Color(0, 0, 0, 0)  # totalmente transparente
+		style.set_border_width_all(0)
+		style.corner_radius_top_left = 60
+		style.corner_radius_top_right = 60
+		style.corner_radius_bottom_left = 60
+		style.corner_radius_bottom_right = 60
+
+		# Aplica o estilo a todos os estados do botão
+		botao.add_theme_stylebox_override("normal", style)
+		botao.add_theme_stylebox_override("hover", style)
+		botao.add_theme_stylebox_override("pressed", style)
+		botao.add_theme_stylebox_override("disabled", style)
+		botao.add_theme_stylebox_override("focus", style)
+		botao.add_theme_stylebox_override("focus_hover", style)
 
 		botao.pressed.connect(func():
 			solicitar_senha_e_revelar(jogador)
