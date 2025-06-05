@@ -40,3 +40,12 @@ layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer/CenterContainer"]
 layout_mode = 2
+
+[node name="SeguirBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 400.0
+offset_right = 391.0
+offset_bottom = 480.0
+pivot_offset = Vector2(2, -2)
+text = "Seguir"
+icon_alignment = 1

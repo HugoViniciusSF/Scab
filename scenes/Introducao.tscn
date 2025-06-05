@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn5bgne6obq6q"]
+
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="1_7obtn"]
+[ext_resource type="Script" path="res://scripts/Introducao.gd" id="1_oy708"]
+
+[node name="Introducao" type="Node2D"]
+script = ExtResource("1_oy708")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_7obtn")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="GeralLabel" type="Label" parent="."]
+offset_top = 16.0
+offset_right = 401.0
+offset_bottom = 42.0
+text = "INTRODUÇÃO"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SeguirBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 400.0
+offset_right = 391.0
+offset_bottom = 480.0
+pivot_offset = Vector2(2, -2)
+text = "Seguir"
+icon_alignment = 1
+
+[node name="VoltarBotao" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 496.0
+offset_right = 391.0
+offset_bottom = 576.0
+pivot_offset = Vector2(2, -2)
+text = "Voltar"
+icon_alignment = 1

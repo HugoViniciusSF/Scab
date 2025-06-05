@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var scroll_container = $ScrollContainer
+@onready var seguir_botao = $SeguirBotao
 
 var jogadores = []
 var container : GridContainer
@@ -9,6 +10,10 @@ func _ready():
 	configurar_layout()
 	carregar_jogadores()
 	criar_botoes_jogadores()
+	seguir_botao.pressed.connect(_on_botao_seguir_pressed)
+
+func _on_botao_seguir_pressed():
+	get_tree().change_scene_to_file("res://scenes/Introducao.tscn")
 
 func configurar_layout():
 	var center_container = CenterContainer.new()
