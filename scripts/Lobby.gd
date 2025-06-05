@@ -19,15 +19,12 @@ func mostrar_configuracoes():
 
 	for chave in JogoGlobal.configuracoes_sala.keys():
 		var valor = JogoGlobal.configuracoes_sala[chave]
-
-		# Sempre mostrar a quantidade de jogadores
 		if chave == "quantidade_jogadores":
 			var label = Label.new()
 			label.text = "Quantidade de Jogadores: %s" % valor
 			container.add_child(label)
 			continue
 
-		# Mostrar apenas as opções booleanas que estão como true
 		if typeof(valor) == TYPE_BOOL and valor:
 			var nome_formatado = chave.capitalize().replace("_", " ")
 			var label = Label.new()
@@ -37,6 +34,6 @@ func mostrar_configuracoes():
 func criar_titulo(texto: String) -> Label:
 	var titulo = Label.new()
 	titulo.text = texto
-	titulo.add_theme_color_override("font_color", Color(1, 1, 1)) # branco
+	titulo.add_theme_color_override("font_color", Color(1, 1, 1))
 	titulo.add_theme_font_size_override("font_size", 20)
 	return titulo

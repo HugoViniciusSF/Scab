@@ -24,10 +24,8 @@ func configurar_layout():
 	container = GridContainer.new()
 	container.columns = 3
 	
-	# Ajustei o tamanho mínimo do container para 380px de largura (quase o total da largura 400)
 	container.custom_minimum_size = Vector2(380, 0)
 	
-	# Centralizar horizontalmente
 	container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	
 	center_container.add_child(container)
@@ -54,7 +52,6 @@ func carregar_jogadores():
 			})
 	file.close()
 
-	# 🔠 Ordenar os jogadores por nome (alfabeticamente)
 	jogadores.sort_custom(func(a, b): return a["nome"].to_lower() < b["nome"].to_lower())
 
 func criar_botoes_jogadores():
@@ -63,18 +60,16 @@ func criar_botoes_jogadores():
 		botao.text = jogador["nome"]
 		botao.custom_minimum_size = Vector2(120, 120)
 		botao.flat = true
-		botao.focus_mode = Control.FOCUS_NONE  # Remove foco visual
+		botao.focus_mode = Control.FOCUS_NONE 
 
-		# Estilo transparente e arredondado
 		var style = StyleBoxFlat.new()
-		style.bg_color = Color(0, 0, 0, 0)  # totalmente transparente
+		style.bg_color = Color(0, 0, 0, 0) 
 		style.set_border_width_all(0)
 		style.corner_radius_top_left = 60
 		style.corner_radius_top_right = 60
 		style.corner_radius_bottom_left = 60
 		style.corner_radius_bottom_right = 60
 
-		# Aplica o estilo a todos os estados do botão
 		botao.add_theme_stylebox_override("normal", style)
 		botao.add_theme_stylebox_override("hover", style)
 		botao.add_theme_stylebox_override("pressed", style)

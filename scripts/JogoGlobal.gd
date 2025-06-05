@@ -1,24 +1,18 @@
 extends Node
 
-# Jogadores adicionados
 var jogadores: Array = []
 
-# Configurações da sala (exemplo: tempo de rodada, número mínimo, etc.)
 var configuracoes_sala: Dictionary = {
-	# Geral
 	"revelar_funcoes": false,
 	"sem_mortes_noite": false,
 	"habilitar_acoes": false,
 
-	# Votação
 	"pular_votacao": false,
 	"esconder_votos": false,
 
-	# Jogadores
 	"quantidade_jogadores": 0
 }
 
-# Lista de classes disponíveis no jogo
 var classes_disponiveis: Array = [
 	{
 		"faccao": "Sindicato",

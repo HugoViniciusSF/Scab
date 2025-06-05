@@ -8,7 +8,6 @@ func _ready():
 	proximo_botao.pressed.connect(_on_botao_proximo_pressed)
 	quantidade_input.text_changed.connect(_on_quantidade_text_changed)
 
-	# Desativa botão inicialmente
 	proximo_botao.disabled = true
 
 func _on_botao_voltar_pressed():
