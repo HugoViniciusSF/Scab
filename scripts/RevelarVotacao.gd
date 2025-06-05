@@ -1,11 +1,13 @@
 extends Node2D
 
 @onready var label_resultados = $ResultadosLabel
+@onready var seguir_botao = $SeguirBotao
 
 func _ready():
 	var revelar_file_path = "user://RevelarVotacao.txt"
 	var revelar_file = FileAccess.open(revelar_file_path, FileAccess.READ)
-	
+	seguir_botao.pressed.connect(_on_botao_seguir_pressed)
+
 	if revelar_file == null:
 		label_resultados.text = "Erro ao carregar resultados da votação."
 		push_error("Erro ao carregar RevelarVotacao.txt")
@@ -24,6 +26,9 @@ func _ready():
 	else:
 		print("Jogadores a serem marcados como mortos: ", players_to_mark_as_killed)
 		_update_jogadores_txt(players_to_mark_as_killed)
+
+func _on_botao_seguir_pressed():
+	get_tree().change_scene_to_file("res://scenes/Temporizador.tscn")
 
 func _get_players_to_kill(revelar_votacao_content: String) -> Array[String]:
 	var lines = revelar_votacao_content.split("\n")
