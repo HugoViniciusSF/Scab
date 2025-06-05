@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2f5vks1s60sn"]
+
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="1_jit3p"]
+
+[node name="RevelarVotacao" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_jit3p")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="GeralLabel" type="Label" parent="."]
+offset_top = 16.0
+offset_right = 401.0
+offset_bottom = 42.0
+text = "REVELAR VOTAÇÃO"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ResultadosLabel" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 192.0
+offset_right = 376.0
+offset_bottom = 280.0

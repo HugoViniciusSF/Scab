@@ -50,6 +50,10 @@ text = "Pular voto"
 layout_mode = 2
 text = "Confirmar voto"
 
+[node name="ButtonRevelarVotacao" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Revelar votação"
+
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 offset_left = 16.0
 offset_top = 200.0
