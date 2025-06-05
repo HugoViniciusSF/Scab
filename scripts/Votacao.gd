@@ -8,6 +8,7 @@ var voto_selecionado = null
 var botao_selecionado = null
 var votacao_path = "user://Votacao.txt"
 var resultados_votacao_path = "user://RevelarVotacao.txt"
+var lider_sindical_primeiro_voto_concluido = false
 
 @onready var container_botoes = $ScrollContainer/CenterContainer/GridContainer
 @onready var label_jogador = $LabelJogador
@@ -29,6 +30,7 @@ func _ready():
 	
 	configurar_pular_visivel()
 	botao_revelar_votacao.visible = false 
+	lider_sindical_primeiro_voto_concluido = false 
 	exibir_jogador_atual()
 
 func limpar_arquivo_votacao():
@@ -95,10 +97,18 @@ func exibir_jogador_atual():
 		return
 
 	voto_selecionado = null
-	botao_selecionado = null
-	label_jogador.text = "Você é: " + jogadores[indice_jogador_atual]
-	gerar_botoes_votacao()
-
+	botao_selecionado = null 
+	
+	var nome_jogador_atual = jogadores[indice_jogador_atual]
+	var texto_label_jogador = "Você é: " + nome_jogador_atual
+	
+	
+	if nome_jogador_atual == lider_sindical_nome and lider_sindical_primeiro_voto_concluido:
+		texto_label_jogador += " (Segundo Voto)"
+		
+	label_jogador.text = texto_label_jogador
+	gerar_botoes_votacao() 
+	
 func gerar_botoes_votacao():
 	for child in container_botoes.get_children():
 		child.queue_free()
@@ -167,26 +177,41 @@ func confirmar_voto():
 		file.seek_end()
 		file.store_string(registro)
 		file.close()
-		print("Voto salvo:", registro)
+		print("Voto salvo: ", registro.strip_edges()) 
 	else:
-		push_error("Erro ao salvar voto.")
+		push_error("Erro ao salvar voto para o jogador: " + atual)
 
-	indice_jogador_atual += 1
+	
+	if atual == lider_sindical_nome:
+		if not lider_sindical_primeiro_voto_concluido:
+			
+			lider_sindical_primeiro_voto_concluido = true
+			print("Líder Sindical (%s) completou o primeiro voto. Preparando para o segundo voto." % atual)
+			
+		else:
+			
+			lider_sindical_primeiro_voto_concluido = false 
+			indice_jogador_atual += 1 
+			print("Líder Sindical (%s) completou o segundo voto. Próximo jogador." % atual)
+	else:
+		
+		indice_jogador_atual += 1
+	
 	exibir_jogador_atual()
-
+	
 func salvar_resultados_votacao():
 	var votos = {}
-	# Inicializa o dicionário de votos com todos os jogadores elegíveis para serem votados
+	
 	for jogador in jogadores:
-		# Líder Sindical não pode ser votado [cite: 64]
+		
 		if jogador != lider_sindical_nome:
 			votos[jogador] = 0
 	
-	# Adiciona a opção "PULAR" caso seja habilitada
+	
 	if configuracoes.get("pular_votacao", false):
 		votos["PULAR"] = 0
 
-	# Lê o arquivo de votação
+	
 	var file = FileAccess.open(votacao_path, FileAccess.READ)
 	if file == null:
 		push_error("Erro ao abrir Votacao.txt para somar os votos.")
@@ -201,24 +226,20 @@ func salvar_resultados_votacao():
 				votos[voto_recebido] += 1
 	file.close()
 
-	var mais_votados = [] # <--- MUDANÇA: AGORA UMA LISTA PARA EMPATES
+	var mais_votados = [] 
 	var max_votos = -1
 	
-	# Verifica se a configuração de esconder o número de votos está ativa
 	var esconder_numero_votos = configuracoes.get("esconder_numero_votos", false)
 	
-	# Escreve os resultados no arquivo RevelarVotacao.txt
 	var output_file = FileAccess.open(resultados_votacao_path, FileAccess.WRITE)
 	if output_file == null:
 		push_error("Erro ao criar RevelarVotacao.txt para salvar os resultados.")
 		return
 
-	# Ordena os votos para exibição (opcional, mas facilita a leitura)
 	var votos_ordenados = []
 	for jogador_alvo in votos.keys():
 		votos_ordenados.append({"nome": jogador_alvo, "votos": votos[jogador_alvo]})
 	
-	# Ordena do maior para o menor número de votos
 	votos_ordenados.sort_custom(func(a, b): return a.votos > b.votos)
 	
 	output_file.store_string("Resultados da Votação:\n")
@@ -230,17 +251,15 @@ func salvar_resultados_votacao():
 			linha_resultado += ": " + str(item.votos) + " votos"
 		output_file.store_string(linha_resultado + "\n")
 		
-		# Determina o mais votado para expulsão (ignora "PULAR")
 		if item.nome != "PULAR":
 			if item.votos > max_votos:
 				max_votos = item.votos
-				mais_votados = [item.nome] # Novo maior voto, reseta a lista de empatados
+				mais_votados = [item.nome]
 			elif item.votos == max_votos:
-				mais_votados.append(item.nome) # Adiciona à lista de empatados
+				mais_votados.append(item.nome) 
 	
 	output_file.store_string("------------------------\n")
 	
-	# Lógica para tratamento de empate
 	if mais_votados.size() == 1 and mais_votados[0] != "":
 		output_file.store_string("Jogador mais votado para expulsão: " + mais_votados[0] + "\n")
 	elif mais_votados.size() > 1:
