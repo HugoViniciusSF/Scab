@@ -46,7 +46,7 @@ func _on_botao_diminuir_pressed():
 
 func _on_botao_finalizar_pressed():
 	parar_temporizador()
-	get_tree().change_scene_to_file("res://proxima_pagina.tscn")  # <- alterar esse caminho!
+	get_tree().change_scene_to_file("res://scenes/Votacao.tscn")
 
 func _on_timer_timeout():
 	if tempo_restante > 0:
