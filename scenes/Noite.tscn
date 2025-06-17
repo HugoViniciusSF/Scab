@@ -1,0 +1,134 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw8q4f4mef65c"]
+
+[ext_resource type="Script" path="res://scripts/Noite.gd" id="1_g2ymf"]
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="2_6vxcj"]
+
+[node name="Noite" type="Node2D"]
+script = ExtResource("1_g2ymf")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6vxcj")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="TituloLabel" type="Label" parent="."]
+offset_top = 16.0
+offset_right = 401.0
+offset_bottom = 42.0
+text = "NOITE"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PainelAguardando" type="Panel" parent="."]
+offset_left = 32.0
+offset_top = 88.0
+offset_right = 368.0
+offset_bottom = 128.0
+
+[node name="Label" type="Label" parent="PainelAguardando"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Aguarde o amanhecer..."
+
+[node name="PainelFiscalizador" type="Panel" parent="."]
+offset_right = 32.0
+offset_bottom = 24.0
+
+[node name="Label" type="Label" parent="PainelFiscalizador"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 340.0
+offset_bottom = 90.0
+text = "Escolha um jogador para investigar:"
+
+[node name="ListaJogadores" type="ItemList" parent="PainelFiscalizador"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 96.0
+offset_right = 360.0
+offset_bottom = 256.0
+
+[node name="BotaoInvestigar" type="Button" parent="PainelFiscalizador"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 280.0
+offset_right = 336.0
+offset_bottom = 320.0
+text = "Investigar"
+
+[node name="PainelEspiao" type="Panel" parent="."]
+offset_right = 24.0
+offset_bottom = 32.0
+
+[node name="Label" type="Label" parent="PainelEspiao"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 344.0
+offset_bottom = 90.0
+text = "Escolha um sindicalista para roubar:"
+
+[node name="BotaoRoubar" type="Button" parent="PainelEspiao"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 280.0
+offset_right = 336.0
+offset_bottom = 320.0
+text = "Roubar"
+
+[node name="ListaJogadores" type="ItemList" parent="PainelEspiao"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 96.0
+offset_right = 360.0
+offset_bottom = 256.0
+
+[node name="PainelMatematica" type="Panel" parent="."]
+offset_right = 24.0
+offset_bottom = 32.0
+
+[node name="LabelPergunta" type="Label" parent="PainelMatematica"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 344.0
+offset_bottom = 90.0
+text = "Resolva para continuar:"
+
+[node name="BotaoConfirmarResposta" type="Button" parent="PainelMatematica"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 184.0
+offset_right = 336.0
+offset_bottom = 224.0
+text = "Confirmar"
+
+[node name="InputResposta" type="LineEdit" parent="PainelMatematica"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 336.0
+offset_bottom = 168.0
+placeholder_text = "Digite sua resposta aqui"
+
+[node name="BotaoAvancarParaDebate" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 400.0
+offset_right = 392.0
+offset_bottom = 480.0
+text = "Avançar para debate"
+
+[connection signal="pressed" from="PainelFiscalizador/BotaoInvestigar" to="." method="_on_botao_investigar_pressed"]
+[connection signal="pressed" from="PainelEspiao/BotaoRoubar" to="." method="_on_botao_roubar_pressed"]
+[connection signal="pressed" from="PainelMatematica/BotaoConfirmarResposta" to="." method="_on_botao_confirmar_resposta_pressed"]
+[connection signal="pressed" from="BotaoAvancarParaDebate" to="." method="_on_botao_avancar_para_debate_pressed"]

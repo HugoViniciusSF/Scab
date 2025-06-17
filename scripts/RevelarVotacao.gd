@@ -28,7 +28,7 @@ func _ready():
 		_update_jogadores_txt(players_to_mark_as_killed)
 
 func _on_botao_seguir_pressed():
-	get_tree().change_scene_to_file("res://scenes/COLOCARCENADODIA.tscn") ///DIA 
+	get_tree().change_scene_to_file("res://scenes/Dia.tscn")
 
 func _get_players_to_kill(revelar_votacao_content: String) -> Array[String]:
 	var lines = revelar_votacao_content.split("\n")

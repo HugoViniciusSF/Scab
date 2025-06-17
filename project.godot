@@ -18,6 +18,7 @@ config/icon="res://assets/Scab.png"
 [autoload]
 
 JogoGlobal="*res://scripts/JogoGlobal.gd"
+GameManager="*res://scripts/GameManager.gd"
 
 [display]
 

@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://6pch2dohecrt"]
+
+[ext_resource type="Texture2D" uid="uid://d3feke23yluai" path="res://assets/Fundo.png" id="1_niwdg"]
+[ext_resource type="Script" path="res://scripts/Dia.gd" id="1_w23s0"]
+
+[node name="Dia" type="Node2D"]
+script = ExtResource("1_w23s0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -104.0
+offset_right = 504.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_niwdg")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="GeralLabel" type="RichTextLabel" parent="."]
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 336.0
+offset_bottom = 136.0
+
+[node name="PainelMatematica" type="Panel" parent="."]
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="LabelPergunta" type="Label" parent="PainelMatematica"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 152.0
+offset_right = 344.0
+offset_bottom = 178.0
+text = "Resolva para continuar:"
+
+[node name="BotaoConfirmarResposta" type="Button" parent="PainelMatematica"]
+offset_left = 64.0
+offset_top = 280.0
+offset_right = 336.0
+offset_bottom = 320.0
+text = "Confirmar"
+
+[node name="InputResposta" type="LineEdit" parent="PainelMatematica"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 216.0
+offset_right = 336.0
+offset_bottom = 256.0
+placeholder_text = "Digite sua resposta aqui"
+
+[node name="BotaoAvancarParaNoite" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 536.0
+offset_right = 392.0
+offset_bottom = 592.0
+text = "Avançar para noite"
+
+[node name="PainelAcoes" type="HBoxContainer" parent="."]
+offset_top = 432.0
+offset_right = 400.0
+offset_bottom = 504.0
+alignment = 1
+
+[node name="BotaoReviver" type="Button" parent="PainelAcoes"]
+layout_mode = 2
+text = "Reviver"
+
+[node name="BotaoBeber" type="Button" parent="PainelAcoes"]
+layout_mode = 2
+text = "Beber"
+
+[node name="BotaoNegociar" type="Button" parent="PainelAcoes"]
+layout_mode = 2
+text = "Negociar"
+
+[node name="VotacaoContainer" type="VBoxContainer" parent="."]
+offset_left = 64.0
+offset_top = 352.0
+offset_right = 336.0
+offset_bottom = 424.0

@@ -51,4 +51,4 @@ func _on_botao_voltar_pressed():
 	get_tree().change_scene_to_file("res://scenes/RevelarFuncoes.tscn")
 
 func _on_botao_seguir_pressed():
-	get_tree().change_scene_to_file("res://scenes/Introducao.tscn")
+	get_tree().change_scene_to_file("res://scenes/Dia.tscn")
