@@ -38,6 +38,7 @@ offset_bottom = 178.0
 text = "Resolva para continuar:"
 
 [node name="BotaoConfirmarResposta" type="Button" parent="PainelMatematica"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = 280.0
 offset_right = 336.0
@@ -78,7 +79,10 @@ layout_mode = 2
 text = "Negociar"
 
 [node name="VotacaoContainer" type="VBoxContainer" parent="."]
+visible = false
 offset_left = 64.0
 offset_top = 352.0
 offset_right = 336.0
 offset_bottom = 424.0
+
+[connection signal="pressed" from="BotaoAvancarParaNoite" to="." method="_on_botao_avancar_para_noite_pressed"]
