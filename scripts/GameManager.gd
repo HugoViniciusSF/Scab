@@ -2,7 +2,7 @@ extends Node2D
 
 # --- ESTADO DO JOGO ---
 var jogadores = {}
-var banco_solidariedade = 10
+var banco_solidariedade = 100
 var jogador_atual_id = -1
 var eventos_da_noite = []
 var resultados_investigacao = {}
