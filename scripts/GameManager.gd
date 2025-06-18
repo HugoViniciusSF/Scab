@@ -103,7 +103,7 @@ func registrar_voto(id_votante, id_alvo, peso_voto):
 func reviver_jogador(id_alvo: int):
 	if jogadores.has(id_alvo):
 		jogadores[id_alvo].morto = false
-		banco_solidariedade -= 2 # Debita o custo aqui, no momento da ação
+		banco_solidariedade -= 2 
 		registrar_log("AÇÃO: Doador Sindical reviveu %s." % jogadores[id_alvo].nome)
 
 func usar_habilidade_beber(id_jogador: int) -> bool:
@@ -132,3 +132,65 @@ func get_sindicalistas_mortos():
 func get_papel(id_jogador):
 	if jogadores.has(id_jogador): return jogadores[id_jogador].papel
 	return null
+
+func get_jogador_por_nome(nome_jogador: String):
+	for id in jogadores:
+		if jogadores[id].nome == nome_jogador:
+			return jogadores[id]
+	return null
+
+func transferir_fichas(id_origem: int, id_destino: int, quantidade: int):
+	if not jogadores.has(id_origem) or not jogadores.has(id_destino):
+		print("ERRO: ID de origem ou destino inválido na transferência de fichas.")
+		return
+
+	var fichas_reais_transferidas = min(jogadores[id_origem].fichas, quantidade)
+	
+	if fichas_reais_transferidas > 0:
+		jogadores[id_origem].fichas -= fichas_reais_transferidas
+		jogadores[id_destino].fichas += fichas_reais_transferidas
+		
+		var log_msg = "AÇÃO: %d ficha(s) foram transferidas de %s para %s." % [
+			fichas_reais_transferidas,
+			jogadores[id_origem].nome,
+			jogadores[id_destino].nome
+		]
+		registrar_log(log_msg)
+	else:
+		registrar_log("AÇÃO: Tentativa de transferência de %s para %s falhou (sem fichas na origem)." % [jogadores[id_origem].nome, jogadores[id_destino].nome])
+
+func get_jogador_por_papel(nome_papel: String):
+	for id in jogadores:
+		if jogadores[id].papel == nome_papel:
+			return jogadores[id]
+	return null 
+
+func processar_acoes_da_noite(acoes: Dictionary):
+	registrar_log("\n--- NOITE ---")
+	
+	# Ação do Fiscalizador
+	if acoes.has("investigar") and acoes.investigar != null:
+		var dados = acoes.investigar
+		var ator = jogadores[dados.ator]
+		var alvo = jogadores[dados.alvo]
+		var e_fura_greve = (alvo.faccao == "Fura-greve" or alvo.faccao == "Diretor")
+		resultados_investigacao[dados.ator] = "O jogador {nome} é Fura-greve: {res}".format({"nome": alvo.nome, "res": e_fura_greve})
+		registrar_log("NOITE: %s (Fiscalizador) investigou %s." % [ator.nome, alvo.nome])
+
+	# Ação do Espião
+	if acoes.has("roubar") and acoes.roubar != null:
+		var dados = acoes.roubar
+		var alvo = jogadores[dados.alvo]
+		if alvo.faccao == "Sindicato":
+			transferir_fichas(dados.alvo, dados.ator, 2)
+			eventos_da_noite.append("Um sindicalista foi roubado durante a noite!")
+		else:
+			registrar_log("NOITE: Espião tentou roubar %s, mas o alvo não era sindicalista." % alvo.nome)
+	
+	var diretor = get_jogador_por_papel("Diretor da Empresa")
+	if diretor and not diretor.morto:
+		banco_solidariedade = max(0, banco_solidariedade - 3)
+		eventos_da_noite.append("O Diretor minou a solidariedade do grupo.")
+		registrar_log("NOITE: Diretor da Empresa cortou 3 fichas do banco. Saldo atual: %d" % banco_solidariedade)
+		
+	salvar_log_do_jogo()

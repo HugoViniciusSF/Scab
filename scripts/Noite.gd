@@ -131,13 +131,14 @@ func _on_botao_confirmar_resposta_pressed():
 	else:
 		print("... e a resposta estava incorreta.")
 		
+
 	_proximo_jogador_ou_finalizar()
 
 
 func _on_botao_avancar_para_debate_pressed():
-	_processar_toda_a_noite()
-	get_tree().change_scene_to_file("res://scenes/Temporizador.tscn")
+	GameManager.processar_acoes_da_noite(acoes_registradas)
 
+	get_tree().change_scene_to_file("res://scenes/Temporizador.tscn") 
 
 func _processar_toda_a_noite():
 	print("\n--- PROCESSANDO A NOITE ---")
