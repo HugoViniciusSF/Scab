@@ -43,14 +43,17 @@ offset_right = 384.0
 offset_bottom = 514.0
 
 [node name="ButtonPular" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 text = "Pular voto"
 
 [node name="ButtonConfirmar" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 text = "Confirmar voto"
 
 [node name="ButtonRevelarVotacao" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 text = "Revelar votação"
 

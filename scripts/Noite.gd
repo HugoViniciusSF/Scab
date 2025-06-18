@@ -10,14 +10,15 @@ extends Node2D
 @onready var titulo_label = $TituloLabel
 @onready var botao_avancar = $BotaoAvancarParaDebate
 
-# Referências específicas para o painel de matemática para maior segurança
+# Referências específicas para o painel de matemática
 @onready var label_pergunta_matematica = $PainelMatematica/LabelPergunta
 @onready var input_resposta_matematica = $PainelMatematica/InputResposta
 
 # --- Variáveis de Controle da Fase ---
 var ordem_dos_turnos = []
 var jogador_da_vez_idx = -1
-var acoes_registradas = {"investigar": null, "roubar": null}
+# MODIFICADO: Agora é um dicionário para registrar a ação de CADA jogador
+var acoes_registradas = {} 
 var resposta_correta_matematica = 0
 
 
@@ -28,7 +29,8 @@ func _ready():
 func _iniciar_fase_da_noite():
 	GameManager.eventos_da_noite.clear()
 	GameManager.resultados_investigacao.clear()
-	acoes_registradas = {"investigar": null, "roubar": null}
+	# Limpa o novo dicionário de ações
+	acoes_registradas.clear()
 	
 	painel_aguardando.hide()
 	painel_fiscalizador.hide()
@@ -67,6 +69,7 @@ func _apresentar_acao_do_jogador():
 			painel_espiao.show()
 			
 		_:
+			# Qualquer outro papel recebe o problema matemático
 			_gerar_problema_matematico()
 			painel_matematica.show()
 
@@ -96,73 +99,54 @@ func _proximo_jogador_ou_finalizar():
 		painel_aguardando.show()
 		botao_avancar.show()
 
+# --- FUNÇÕES DE BOTÃO MODIFICADAS ---
 
 func _on_botao_investigar_pressed():
 	if lista_jogadores_fiscalizador.get_selected_items().is_empty(): return
+	
 	var nome_alvo = lista_jogadores_fiscalizador.get_item_text(lista_jogadores_fiscalizador.get_selected_items()[0])
 	var dados_alvo = GameManager.get_jogador_por_nome(nome_alvo)
 	var id_ator = ordem_dos_turnos[jogador_da_vez_idx]
-	acoes_registradas.investigar = { "ator": id_ator, "alvo": dados_alvo.id }
-	print("Ação registrada: Fiscalizador ({ator}) vai investigar {alvo}".format(acoes_registradas.investigar))
+	
+	# MODIFICADO: Registra a ação no ID do jogador que a realizou
+	acoes_registradas[id_ator] = { "tipo": "investigar", "alvo": dados_alvo.id }
+	print("Ação registrada: Fiscalizador ({ator}) vai investigar {alvo}".format({ "ator": id_ator, "alvo": dados_alvo.id }))
+	
 	_proximo_jogador_ou_finalizar()
 
 
 func _on_botao_roubar_pressed():
 	if lista_jogadores_espiao.get_selected_items().is_empty(): return
+	
 	var nome_alvo = lista_jogadores_espiao.get_item_text(lista_jogadores_espiao.get_selected_items()[0])
 	var dados_alvo = GameManager.get_jogador_por_nome(nome_alvo)
 	var id_ator = ordem_dos_turnos[jogador_da_vez_idx]
-	acoes_registradas.roubar = { "ator": id_ator, "alvo": dados_alvo.id }
-	print("Ação registrada: Espião ({ator}) vai roubar de {alvo}".format(acoes_registradas.roubar))
+
+	# MODIFICADO: Registra a ação no ID do jogador que a realizou
+	acoes_registradas[id_ator] = { "tipo": "roubar", "alvo": dados_alvo.id }
+	print("Ação registrada: Espião ({ator}) vai roubar de {alvo}".format({ "ator": id_ator, "alvo": dados_alvo.id }))
+
 	_proximo_jogador_ou_finalizar()
 
 
-# --- FUNÇÃO MODIFICADA ---
 func _on_botao_confirmar_resposta_pressed():
+	var id_ator = ordem_dos_turnos[jogador_da_vez_idx]
 	var resposta_do_jogador = input_resposta_matematica.text
+	var acertou = resposta_do_jogador.is_valid_int() and int(resposta_do_jogador) == resposta_correta_matematica
 	
-	print("Jogador {id} respondeu '{resp}' ao problema.".format({
-		"id": ordem_dos_turnos[jogador_da_vez_idx],
-		"resp": resposta_do_jogador
-	}))
+	# MODIFICADO: Registra a ação de "trabalhar" e se o jogador teve sucesso
+	acoes_registradas[id_ator] = { "tipo": "trabalhar", "sucesso": acertou }
 	
-	if resposta_do_jogador.is_valid_int() and int(resposta_do_jogador) == resposta_correta_matematica:
-		print("... e a resposta estava correta!")
+	if acertou:
+		print("Jogador {id} respondeu corretamente.".format({"id": id_ator}))
 	else:
-		print("... e a resposta estava incorreta.")
-		
+		print("Jogador {id} respondeu incorretamente.".format({"id": id_ator}))
 
 	_proximo_jogador_ou_finalizar()
 
 
 func _on_botao_avancar_para_debate_pressed():
+	# Passa o novo dicionário de ações para o GameManager processar
 	GameManager.processar_acoes_da_noite(acoes_registradas)
+	get_tree().change_scene_to_file("res://scenes/Temporizador.tscn")
 
-	get_tree().change_scene_to_file("res://scenes/Temporizador.tscn") 
-
-func _processar_toda_a_noite():
-	print("\n--- PROCESSANDO A NOITE ---")
-	if acoes_registradas.investigar:
-		var dados = acoes_registradas.investigar
-		var alvo = GameManager.jogadores[dados.alvo]
-		var e_fura_greve = (alvo.faccao == "Fura-greve" or alvo.faccao == "Diretor")
-		GameManager.resultados_investigacao[dados.ator] = "O jogador {nome} é Fura-greve: {res}".format({"nome": alvo.nome, "res": e_fura_greve})
-		print("Processado: Investigação de ", alvo.nome)
-
-	if acoes_registradas.roubar:
-		var dados = acoes_registradas.roubar
-		var alvo = GameManager.jogadores[dados.alvo]
-		if alvo.faccao == "Sindicato":
-			GameManager.transferir_fichas(dados.alvo, dados.ator, 2)
-			GameManager.eventos_da_noite.append("Um sindicalista foi roubado!")
-			print("Processado: Roubo do alvo ", alvo.nome)
-		else:
-			print("Processado: Roubo falhou, alvo não era sindicalista.")
-
-	var diretor = GameManager.get_jogador_por_papel("Diretor da Empresa")
-	if diretor and not diretor.morto:
-		GameManager.banco_solidariedade -= 3
-		GameManager.eventos_da_noite.append("O Diretor minou a solidariedade do grupo.")
-		print("Processado: Ação passiva do Diretor. Banco: ", GameManager.banco_solidariedade)
-
-	print("--- FIM DO PROCESSAMENTO ---\n")

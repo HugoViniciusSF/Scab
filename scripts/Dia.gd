@@ -54,7 +54,7 @@ func _mostrar_resumo_e_titulo():
 	geral_label.append_text("[center][b]DIA - Turno de: %s (%s)[/b][/center]\n\n" % [jogador_info.nome, jogador_info.papel])
 	
 	if GameManager.eventos_da_noite.is_empty():
-		geral_label.append_text("A noite foi estranhamente silenciosa.\n")
+		geral_label.append_text("Realize as tarefas.\n")
 	else:
 		for evento in GameManager.eventos_da_noite:
 			geral_label.append_text("- " + evento + "\n")

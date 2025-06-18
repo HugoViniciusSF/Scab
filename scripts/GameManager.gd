@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 # --- ESTADO DO JOGO ---
 var jogadores = {}
@@ -21,11 +21,17 @@ func _ready():
 	registrar_log("--- INÍCIO DE JOGO ---")
 	_carregar_dados_jogadores()
 
+# --- FUNÇÃO MODIFICADA (PARA LIDAR COM ARQUIVO VAZIO) ---
 func _carregar_dados_jogadores():
+	# Se o arquivo não existir, criamos um arquivo VAZIO.
+	# O jogo continuará com o dicionário de jogadores vazio até que a cena Game.tscn o popule.
 	if not FileAccess.file_exists(CAMINHO_JOGADORES):
-		print("ERRO: Arquivo de jogadores não encontrado em '", CAMINHO_JOGADORES, "'")
+		print("AVISO: Arquivo de jogadores não encontrado. Criando um arquivo vazio.")
+		_criar_arquivo_de_jogadores_vazio()
+		# Não há mais nada a fazer, retornamos com a lista de jogadores vazia.
 		return
 
+	# Se o arquivo existir, tentamos lê-lo.
 	var file = FileAccess.open(CAMINHO_JOGADORES, FileAccess.READ)
 	var regex = RegEx.new()
 	regex.compile("^ID (\\d+) - (.*): (.*) \\((.*)\\) \\| Morto: (true|false) \\| Senha: (.*)$")
@@ -50,10 +56,30 @@ func _carregar_dados_jogadores():
 			}
 	file.close()
 	
-	var ids_ordenados = jogadores.keys(); ids_ordenados.sort()
-	for id in ids_ordenados:
-		if not jogadores[id].morto:
-			jogador_atual_id = id; break
+	# PONTO CRÍTICO: Só executa esta lógica se houver jogadores carregados.
+	# Isso evita o crash se o arquivo estiver vazio.
+	if not jogadores.is_empty():
+		var ids_ordenados = jogadores.keys(); ids_ordenados.sort()
+		for id in ids_ordenados:
+			if not jogadores[id].morto:
+				jogador_atual_id = id
+				break
+		
+		# Verifica se algum jogador vivo foi definido.
+		if jogador_atual_id == -1:
+			print("AVISO: Nenhum jogador vivo encontrado no arquivo de jogadores.")
+	else:
+		# Se nenhum jogador foi carregado, garantimos que o ID seja -1.
+		print("AVISO: Dicionário de jogadores está vazio. Aguardando criação na cena do jogo.")
+		jogador_atual_id = -1
+
+
+# --- NOVA FUNÇÃO AUXILIAR (PARA CRIAR ARQUIVO VAZIO) ---
+func _criar_arquivo_de_jogadores_vazio():
+	var file = FileAccess.open(CAMINHO_JOGADORES, FileAccess.WRITE)
+	file.store_string("") # Armazena uma string vazia, criando o arquivo.
+	file.close()
+
 
 # --- FUNÇÕES DE LOG ---
 func registrar_log(evento: String):
@@ -93,7 +119,12 @@ func avancar_para_proximo_jogador_dia():
 func _definir_proximo_jogador_na_fila():
 	if not fila_de_jogadores_do_dia.is_empty():
 		jogador_atual_id = fila_de_jogadores_do_dia.pop_front()
-		registrar_log("TURNO: Começa o turno de %s." % jogadores[jogador_atual_id].nome)
+		# Verifica se o ID do jogador é válido antes de tentar usá-lo
+		if jogadores.has(jogador_atual_id):
+			registrar_log("TURNO: Começa o turno de %s." % jogadores[jogador_atual_id].nome)
+		else:
+			print("ERRO: Tentativa de iniciar turno para um ID de jogador inválido: ", jogador_atual_id)
+
 
 func registrar_voto(id_votante, id_alvo, peso_voto):
 	if not votos_da_rodada.has(id_alvo): votos_da_rodada[id_alvo] = 0
@@ -103,7 +134,7 @@ func registrar_voto(id_votante, id_alvo, peso_voto):
 func reviver_jogador(id_alvo: int):
 	if jogadores.has(id_alvo):
 		jogadores[id_alvo].morto = false
-		banco_solidariedade -= 2 
+		banco_solidariedade -= 2
 		registrar_log("AÇÃO: Doador Sindical reviveu %s." % jogadores[id_alvo].nome)
 
 func usar_habilidade_beber(id_jogador: int) -> bool:
@@ -163,34 +194,47 @@ func get_jogador_por_papel(nome_papel: String):
 	for id in jogadores:
 		if jogadores[id].papel == nome_papel:
 			return jogadores[id]
-	return null 
+	return null
 
+# --- FUNÇÃO DE PROCESSAMENTO DA NOITE MODIFICADA ---
 func processar_acoes_da_noite(acoes: Dictionary):
-	registrar_log("\n--- NOITE ---")
+	registrar_log("\n--- PROCESSANDO A NOITE ---")
 	
-	# Ação do Fiscalizador
-	if acoes.has("investigar") and acoes.investigar != null:
-		var dados = acoes.investigar
-		var ator = jogadores[dados.ator]
-		var alvo = jogadores[dados.alvo]
-		var e_fura_greve = (alvo.faccao == "Fura-greve" or alvo.faccao == "Diretor")
-		resultados_investigacao[dados.ator] = "O jogador {nome} é Fura-greve: {res}".format({"nome": alvo.nome, "res": e_fura_greve})
-		registrar_log("NOITE: %s (Fiscalizador) investigou %s." % [ator.nome, alvo.nome])
+	for id_ator in acoes.keys():
+		if not jogadores.has(id_ator): continue
+		
+		var dados_acao = acoes[id_ator]
+		var ator = jogadores[id_ator]
 
-	# Ação do Espião
-	if acoes.has("roubar") and acoes.roubar != null:
-		var dados = acoes.roubar
-		var alvo = jogadores[dados.alvo]
-		if alvo.faccao == "Sindicato":
-			transferir_fichas(dados.alvo, dados.ator, 2)
-			eventos_da_noite.append("Um sindicalista foi roubado durante a noite!")
-		else:
-			registrar_log("NOITE: Espião tentou roubar %s, mas o alvo não era sindicalista." % alvo.nome)
+		match dados_acao.tipo:
+			"investigar":
+				var alvo = jogadores[dados_acao.alvo]
+				var e_fura_greve = (alvo.faccao == "Fura-greve" or alvo.faccao == "Diretor")
+				resultados_investigacao[id_ator] = "O jogador {nome} é Fura-greve: {res}".format({"nome": alvo.nome, "res": e_fura_greve})
+				registrar_log("NOITE: %s (Fiscalizador) investigou %s." % [ator.nome, alvo.nome])
+
+			"roubar":
+				var alvo = jogadores[dados_acao.alvo]
+				if alvo.faccao == "Sindicato":
+					transferir_fichas(dados_acao.alvo, id_ator, 2)
+					#eventos_da_noite.append("Um sindicalista foi roubado durante a noite!")
+				else:
+					registrar_log("NOITE: %s (Espião) tentou roubar %s, mas o alvo não era sindicalista." % [ator.nome, alvo.nome])
+			
+			"trabalhar":
+				if dados_acao.sucesso:
+					registrar_log("NOITE: %s contribuiu com o esforço da greve." % ator.nome)
+				else:
+					banco_solidariedade = max(0, banco_solidariedade - 1)
+					# A linha abaixo foi removida para que o evento não seja mais público
+					# eventos_da_noite.append("%s não cumpriu sua tarefa e prejudicou o grupo." % ator.nome)
+					registrar_log("NOITE: %s falhou na sua tarefa. O banco perdeu 1 ficha. Saldo atual: %d" % [ator.nome, banco_solidariedade])
 	
 	var diretor = get_jogador_por_papel("Diretor da Empresa")
 	if diretor and not diretor.morto:
 		banco_solidariedade = max(0, banco_solidariedade - 3)
-		eventos_da_noite.append("O Diretor minou a solidariedade do grupo.")
+		#eventos_da_noite.append("O Diretor minou a solidariedade do grupo.")
 		registrar_log("NOITE: Diretor da Empresa cortou 3 fichas do banco. Saldo atual: %d" % banco_solidariedade)
 		
 	salvar_log_do_jogo()
+	registrar_log("--- FIM DO PROCESSAMENTO DA NOITE ---\n")
