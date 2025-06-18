@@ -78,4 +78,8 @@ text = "Beber"
 layout_mode = 2
 text = "Negociar"
 
-[connection signal="pressed" from="BotaoAvancarParaNoite" to="." method="_on_botao_avancar_para_noite_pressed"]
+[connection signal="pressed" from="PainelMatematica/BotaoConfirmarResposta" to="." method="_on_botao_confirmar_resposta_pressed"]
+[connection signal="pressed" from="BotaoAvancarParaNoite" to="." method="_on_finalizar_turno_pressed"]
+[connection signal="pressed" from="PainelAcoes/BotaoReviver" to="." method="_on_botao_reviver_pressed"]
+[connection signal="pressed" from="PainelAcoes/BotaoBeber" to="." method="_on_botao_beber_pressed"]
+[connection signal="pressed" from="PainelAcoes/BotaoNegociar" to="." method="_on_botao_negociar_pressed"]
