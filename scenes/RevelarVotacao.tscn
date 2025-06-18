@@ -27,12 +27,6 @@ text = "REVELAR VOTAÇÃO"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ResultadosLabel" type="Label" parent="."]
-offset_left = 24.0
-offset_top = 64.0
-offset_right = 376.0
-offset_bottom = 192.0
-
 [node name="SeguirBotao" type="Button" parent="."]
 offset_left = 8.0
 offset_top = 400.0
@@ -41,3 +35,15 @@ offset_bottom = 480.0
 pivot_offset = Vector2(2, -2)
 text = "Seguir"
 icon_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_left = 24.0
+offset_top = 64.0
+offset_right = 375.0
+offset_bottom = 261.0
+
+[node name="ResultadosLabel" type="Label" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+autowrap_mode = 3

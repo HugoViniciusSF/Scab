@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var label_resultados = $ResultadosLabel
+@onready var label_resultados = $ScrollContainer/ResultadosLabel
 @onready var seguir_botao = $SeguirBotao
 
 func _ready():
