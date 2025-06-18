@@ -23,7 +23,7 @@ stretch_mode = 5
 offset_left = 56.0
 offset_top = 16.0
 offset_right = 344.0
-offset_bottom = 192.0
+offset_bottom = 327.0
 
 [node name="PainelMatematica" type="Panel" parent="."]
 offset_right = 16.0

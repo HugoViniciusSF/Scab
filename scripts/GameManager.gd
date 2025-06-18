@@ -101,7 +101,8 @@ func salvar_log_do_jogo():
 func iniciar_logica_do_dia():
 	if dia_ja_iniciado: return
 	var dia_num = eventos_da_noite.size() + 1
-	registrar_log("\n--- DIA %s ---" % dia_num)
+	#registrar_log("\n--- DIA %s ---" % dia_num)
+	registrar_log("\n--- DIA %s ---" )
 	votos_da_rodada.clear()
 	fila_de_jogadores_do_dia = get_jogadores_vivos().map(func(j): return j.id)
 	dia_ja_iniciado = true
