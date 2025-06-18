@@ -40,7 +40,7 @@ icon_alignment = 1
 offset_left = 24.0
 offset_top = 64.0
 offset_right = 375.0
-offset_bottom = 261.0
+offset_bottom = 368.0
 
 [node name="ResultadosLabel" type="Label" parent="ScrollContainer"]
 layout_mode = 2

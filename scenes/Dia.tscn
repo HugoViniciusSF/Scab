@@ -20,10 +20,10 @@ expand_mode = 2
 stretch_mode = 5
 
 [node name="GeralLabel" type="RichTextLabel" parent="."]
-offset_left = 64.0
+offset_left = 56.0
 offset_top = 16.0
-offset_right = 336.0
-offset_bottom = 136.0
+offset_right = 344.0
+offset_bottom = 192.0
 
 [node name="PainelMatematica" type="Panel" parent="."]
 offset_right = 16.0
@@ -31,26 +31,26 @@ offset_bottom = 16.0
 
 [node name="LabelPergunta" type="Label" parent="PainelMatematica"]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 152.0
-offset_right = 344.0
-offset_bottom = 178.0
+offset_left = 56.0
+offset_top = 208.0
+offset_right = 336.0
+offset_bottom = 234.0
 text = "Resolva para continuar:"
 
 [node name="BotaoConfirmarResposta" type="Button" parent="PainelMatematica"]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 280.0
-offset_right = 336.0
-offset_bottom = 320.0
+offset_left = 56.0
+offset_top = 344.0
+offset_right = 344.0
+offset_bottom = 400.0
 text = "Confirmar"
 
 [node name="InputResposta" type="LineEdit" parent="PainelMatematica"]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 216.0
-offset_right = 336.0
-offset_bottom = 256.0
+offset_left = 56.0
+offset_top = 280.0
+offset_right = 344.0
+offset_bottom = 328.0
 placeholder_text = "Digite sua resposta aqui"
 
 [node name="BotaoAvancarParaNoite" type="Button" parent="."]
@@ -61,20 +61,24 @@ offset_bottom = 592.0
 text = "Avançar para noite"
 
 [node name="PainelAcoes" type="HBoxContainer" parent="."]
+offset_left = 16.0
 offset_top = 432.0
-offset_right = 400.0
-offset_bottom = 504.0
+offset_right = 384.0
+offset_bottom = 488.0
 alignment = 1
 
 [node name="BotaoReviver" type="Button" parent="PainelAcoes"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
-text = "Reviver"
+text = "Reviver "
 
 [node name="BotaoBeber" type="Button" parent="PainelAcoes"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
-text = "Beber"
+text = "Beber "
 
 [node name="BotaoNegociar" type="Button" parent="PainelAcoes"]
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 text = "Negociar"
 
