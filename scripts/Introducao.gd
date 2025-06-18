@@ -1,11 +1,11 @@
-extends Node
+extends Node2D
 
 @onready var seguir_botao = $SeguirBotao
 @onready var voltar_botao = $VoltarBotao
 @onready var contexto_label = $ContextoContainer/ContextoLabel
 
 
-var velocidade_rolagem = 30.0
+var velocidade_rolagem = 20.0
 
 func _ready():
 	seguir_botao.pressed.connect(_on_botao_seguir_pressed)
@@ -35,9 +35,9 @@ func exibir_contexto_aleatorio():
 				contexto_label.position.y = $ContextoContainer.size.y
 
 		else:
-			contexto_label.text = "Nenhum contexto de greve encontrado no arquivo."
+			contexto_label.text = "A tensão paira no ar da fábrica. Por semanas, o sindicato tentou negociar melhores condições, mas a diretoria permaneceu inflexível. Hoje, o som das máquinas finalmente silenciou. A greve foi declarada, e a luta por dignidade definirá o futuro de todos nós."
 	else:
-		contexto_label.text = "Erro: Não foi possível abrir o arquivo contexto_greve.txt."
+		contexto_label.text = "As negociações com a diretoria fracassaram. Cansados de promessas vazias e salários injustos, os operários cruzaram os braços. A greve é o nosso último recurso. Agora, a união do sindicato será testada contra a ganância da empresa e a traição interna."
 
 func _process(delta):
 	contexto_label.position.y -= velocidade_rolagem * delta

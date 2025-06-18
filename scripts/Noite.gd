@@ -1,4 +1,3 @@
-# Noite.gd (Versão que lê a resposta da matemática)
 extends Node2D
 
 # --- Referências para os Nós da Cena ---
@@ -120,23 +119,18 @@ func _on_botao_roubar_pressed():
 
 # --- FUNÇÃO MODIFICADA ---
 func _on_botao_confirmar_resposta_pressed():
-	# Pega o texto que o jogador digitou no LineEdit.
-	# A variável 'input_resposta_matematica' foi declarada no topo do script.
 	var resposta_do_jogador = input_resposta_matematica.text
 	
-	# Imprime a resposta no console para confirmar que ela foi lida corretamente.
 	print("Jogador {id} respondeu '{resp}' ao problema.".format({
 		"id": ordem_dos_turnos[jogador_da_vez_idx],
 		"resp": resposta_do_jogador
 	}))
 	
-	# (Opcional) Você pode até verificar se a resposta está correta.
 	if resposta_do_jogador.is_valid_int() and int(resposta_do_jogador) == resposta_correta_matematica:
 		print("... e a resposta estava correta!")
 	else:
 		print("... e a resposta estava incorreta.")
 		
-	# Avança para o próximo jogador da noite.
 	_proximo_jogador_ou_finalizar()
 
 
